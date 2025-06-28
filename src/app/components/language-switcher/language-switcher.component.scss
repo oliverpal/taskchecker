@@ -1,0 +1,93 @@
+// Language Switcher Component - Using Design System Variables
+
+.language-switcher-minimal {
+  position: fixed;
+  top: var(--tc-space-4);
+  right: var(--tc-space-4);
+  z-index: var(--tc-z-language);
+  display: flex;
+  align-items: center;
+  gap: var(--tc-space-2);
+  background: var(--tc-bg-overlay);
+  backdrop-filter: blur(10px);
+  border-radius: var(--tc-radius-md);
+  padding: var(--tc-space-2) var(--tc-space-3);
+  border: var(--tc-border-width) solid rgba(0, 0, 0, 0.05);
+  box-shadow: var(--tc-shadow-lg);
+
+  .lang-btn-minimal {
+    background: none;
+    border: none;
+    font-size: var(--tc-font-size-xs);
+    font-weight: var(--tc-font-weight-medium);
+    color: var(--tc-text-disabled);
+    cursor: pointer;
+    padding: var(--tc-space-1);
+    border-radius: var(--tc-radius-sm);
+    transition: all var(--tc-transition-normal);
+    letter-spacing: var(--tc-letter-spacing-wide);
+    text-transform: uppercase;
+    line-height: 1;
+
+    &:hover {
+      color: var(--tc-text-muted);
+      background: var(--tc-bg-muted);
+    }
+
+    &.active {
+      color: var(--tc-primary-500);
+      background: var(--tc-primary-50);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: var(--tc-shadow-focus);
+    }
+  }
+
+  .github-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tc-text-disabled);
+    text-decoration: none;
+    transition: all var(--tc-transition-normal);
+    padding: var(--tc-space-1);
+    border-radius: var(--tc-radius-sm);
+    line-height: 1;
+
+    &:hover {
+      color: var(--tc-text-primary);
+      background: var(--tc-bg-muted);
+      transform: scale(1.1);
+    }
+
+    svg {
+      transition: var(--tc-transition-normal);
+    }
+  }
+
+  .separator {
+    color: var(--tc-border-medium);
+    font-size: var(--tc-font-size-xs);
+    font-weight: var(--tc-font-weight-light);
+    line-height: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .language-switcher-minimal {
+    top: var(--tc-space-3);
+    right: var(--tc-space-3);
+    padding: var(--tc-space-1) var(--tc-space-2);
+    
+    .lang-btn-minimal {
+      font-size: 11px;
+      padding: calc(var(--tc-space-1) * 0.75);
+    }
+    
+    .separator {
+      font-size: 11px;
+    }
+  }
+}

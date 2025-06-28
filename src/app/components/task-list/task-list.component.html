@@ -1,0 +1,119 @@
+<!-- Language Switcher -->
+<app-language-switcher></app-language-switcher>
+
+<!-- Top Progress Bar -->
+@if (totalCount() > 0) {
+<div class="top-progress-bar">
+  <div class="top-progress-fill" [style.width.%]="progressPercentage()"></div>
+</div>
+}
+
+<div class="task-container">
+  <h1 class="app-title">{{ translate('app.title') }}</h1>
+  <p class="app-subtitle">{{ translate('app.subtitle') }}</p>
+
+  <!-- Progress Info -->
+  @if (totalCount() > 0) {
+  <div class="progress-info-section">
+    <span class="progress-text"
+      >{{ completedCount() }} / {{ totalCount() }} {{ translate('progress.tasksCompleted') }}</span
+    >
+    <span class="progress-percentage">{{ progressPercentage() }}%</span>
+  </div>
+  }
+
+  <!-- Completion Message -->
+  @if (showCompletionMessage()) {
+  <div class="completion-message">
+    <div class="celebration-icon">🎉</div>
+    <h2>{{ translate('completion.title') }}</h2>
+    <p>{{ translate('completion.message') }}</p>
+  </div>
+  }
+
+  <!-- Add Task Form -->
+  <div class="add-task-section">
+    <div class="input-group">
+      <input
+        type="text"
+        [(ngModel)]="newTaskText"
+        (keypress)="onKeyPress($event)"
+        [placeholder]="translate('addTask.placeholder')"
+        class="task-input"
+        maxlength="200"
+      />
+      <button
+        (click)="addTask()"
+        [disabled]="!newTaskText.trim()"
+        class="add-btn"
+      >
+        <span class="add-icon">+</span>
+        {{ translate('addTask.button') }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Task List -->
+  <div class="task-list">
+    @for (task of tasks(); track task.id) {
+    <div class="task-item" [class.completed]="task.completed">
+      <div class="task-content">
+        <label class="checkbox-container">
+          <input
+            type="checkbox"
+            [checked]="task.completed"
+            (change)="toggleTask(task.id)"
+            class="task-checkbox"
+          />
+          <span class="checkmark"></span>
+        </label>
+
+        @if (editingTaskId === task.id) {
+        <input
+          type="text"
+          [(ngModel)]="editingText"
+          (keydown)="onEditKeyPress($event)"
+          (blur)="saveTaskEdit()"
+          class="task-edit-input"
+          #editInput
+          maxlength="200"
+        />
+        } @else {
+        <span 
+          class="task-text" 
+          [class.crossed-out]="task.completed"
+          (click)="!task.completed && startEditingTask(task)"
+          [class.editable]="!task.completed"
+          [title]="!task.completed ? translate('actions.editTask') : ''">
+          {{ task.text }}
+        </span>
+        }
+      </div>
+
+      <button
+        (click)="deleteTask(task.id)"
+        class="delete-btn"
+        [title]="translate('actions.deleteTask')"
+      >
+        <span class="delete-icon">×</span>
+      </button>
+    </div>
+    } @empty {
+    <!-- Empty State -->
+    <div class="empty-state">
+      <div class="empty-icon">📝</div>
+      <h3>{{ translate('emptyState.title') }}</h3>
+      <p>{{ translate('emptyState.message') }}</p>
+    </div>
+    }
+  </div>
+
+  <!-- Clear All Button -->
+  @if (tasks().length > 0) {
+  <div class="actions-section">
+    <button (click)="clearAllTasks()" class="clear-all-btn">
+      {{ translate('actions.clearAll') }}
+    </button>
+  </div>
+  }
+</div>
