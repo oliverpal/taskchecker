@@ -1,5 +1,14 @@
-import { Component, computed, ElementRef, HostListener, inject, ViewChild, AfterViewInit, OnDestroy, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  computed,
+  ElementRef,
+  HostListener,
+  inject,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+  effect,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ModalService } from '../../services/modal.service';
 import { TranslationService } from '../../services/translation.service';
@@ -14,9 +23,9 @@ type FeedbackSubmissionState = 'idle' | 'submitting' | 'success' | 'error';
 
 @Component({
   selector: 'app-modal',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss'
+  styleUrl: './modal.component.scss',
 })
 export class ModalComponent implements AfterViewInit, OnDestroy {
   private readonly modalService = inject(ModalService);
@@ -49,11 +58,13 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   public premiumFormData: PremiumFormData = {
     email: '',
     suggestions: '',
-    termsAccepted: false
+    termsAccepted: false,
   };
-  
+
   public feedbackSubmissionState: FeedbackSubmissionState = 'idle';
-  public isSubmittingFeedback = computed(() => this.feedbackSubmissionState === 'submitting');
+  public isSubmittingFeedback = computed(
+    () => this.feedbackSubmissionState === 'submitting'
+  );
 
   constructor() {
     // Watch for modal state changes to manage focus
@@ -90,7 +101,6 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
     this.modalService.closeModal();
   }
 
-
   /**
    * Handle touch start for swipe-to-close gesture
    */
@@ -106,16 +116,16 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
    */
   onTouchMove(event: TouchEvent): void {
     if (!this.isDragging || event.touches.length !== 1) return;
-    
+
     this.touchCurrentY = event.touches[0].clientY;
     const deltaY = this.touchCurrentY - this.touchStartY;
-    
+
     // Only allow downward swipes and limit the distance
     if (deltaY > 0) {
       const maxDrag = 200;
       const dragDistance = Math.min(deltaY, maxDrag);
       const modal = this.modalContent?.nativeElement;
-      
+
       if (modal) {
         modal.style.transform = `translateY(${dragDistance}px)`;
         modal.style.opacity = `${1 - (dragDistance / maxDrag) * 0.5}`;
@@ -128,21 +138,21 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
    */
   onTouchEnd(event: TouchEvent): void {
     if (!this.isDragging) return;
-    
+
     const deltaY = this.touchCurrentY - this.touchStartY;
     const modal = this.modalContent?.nativeElement;
-    
+
     if (modal) {
       // Reset transform
       modal.style.transform = '';
       modal.style.opacity = '';
     }
-    
+
     // Close modal if swiped down more than 100px
     if (deltaY > 100) {
       this.closeModal();
     }
-    
+
     this.isDragging = false;
     this.touchStartY = 0;
     this.touchCurrentY = 0;
@@ -151,15 +161,15 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   /**
    * Get translation helper
    */
-  translate(key: string): string {
+  protected translate(key: string): string {
     return this.translationService.translate(key);
   }
 
   /**
-   * Focus management after view init
+   * Initialize component after view init
    */
   ngAfterViewInit(): void {
-    // ViewChildren are now available
+    // Any view initialization logic can go here
   }
 
   /**
@@ -179,10 +189,10 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
     if (this.isOpen()) {
       // Store currently focused element
       this.previouslyFocusedElement = document.activeElement as HTMLElement;
-      
+
       // Get all focusable elements in modal
       this.updateFocusableElements();
-      
+
       // Focus first focusable element (close button) after a brief delay
       setTimeout(() => {
         if (this.closeButton?.nativeElement) {
@@ -210,12 +220,16 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
       'input',
       'select',
       'textarea',
-      '[tabindex]:not([tabindex="-1"])'
+      '[tabindex]:not([tabindex="-1"])',
     ];
 
     this.focusableElements = Array.from(
-      this.modalContent.nativeElement.querySelectorAll(focusableSelectors.join(','))
-    ).filter((el: any) => !el.disabled && el.offsetParent !== null) as HTMLElement[];
+      this.modalContent.nativeElement.querySelectorAll(
+        focusableSelectors.join(',')
+      )
+    ).filter(
+      (el: any) => !el.disabled && el.offsetParent !== null
+    ) as HTMLElement[];
   }
 
   /**
@@ -225,7 +239,8 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
     if (this.focusableElements.length === 0) return;
 
     const firstElement = this.focusableElements[0];
-    const lastElement = this.focusableElements[this.focusableElements.length - 1];
+    const lastElement =
+      this.focusableElements[this.focusableElements.length - 1];
 
     if (event.shiftKey) {
       // Shift + Tab: move to previous element
@@ -266,7 +281,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
     this.premiumFormData = {
       email: '',
       suggestions: '',
-      termsAccepted: false
+      termsAccepted: false,
     };
     this.feedbackSubmissionState = 'idle';
   }
@@ -274,7 +289,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   /**
    * Submit premium feedback form
    */
-  submitPremiumFeedback(): void {
+  protected submitPremiumFeedback(): void {
     if (!this.premiumFormData.termsAccepted) {
       return;
     }
@@ -288,16 +303,15 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
         console.log('Premium feedback submitted:', {
           email: this.premiumFormData.email || 'Not provided',
           suggestions: this.premiumFormData.suggestions,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
 
         this.feedbackSubmissionState = 'success';
-        
+
         // Auto-close modal after successful submission
         setTimeout(() => {
           this.closeModal();
         }, 2000);
-        
       } catch (error) {
         console.error('Error submitting feedback:', error);
         this.feedbackSubmissionState = 'error';
@@ -308,7 +322,7 @@ export class ModalComponent implements AfterViewInit, OnDestroy {
   /**
    * Open terms and conditions modal (placeholder)
    */
-  openTermsModal(): void {
+  protected openTermsModal(): void {
     // For now, we'll just alert - can be enhanced to open another modal
     alert(this.translate('modal.premium.form.terms.content'));
   }

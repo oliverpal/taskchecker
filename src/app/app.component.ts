@@ -6,6 +6,4 @@ import { TaskListComponent } from './components/task-list/task-list.component';
   imports: [TaskListComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'taskchecker';
-}
+export class AppComponent {}

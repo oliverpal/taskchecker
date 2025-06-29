@@ -112,9 +112,6 @@ export class TaskListComponent implements AfterViewChecked {
     }
   }
 
-  /**
-   * Opens a modal of the specified type
-   */
   protected openModal(type: ModalType): void {
     this.modalService.openModal(type);
   }

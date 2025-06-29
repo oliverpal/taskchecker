@@ -5,7 +5,14 @@
 
 <!-- Top Progress Bar -->
 @if (totalCount() > 0) {
-<div class="top-progress-bar" role="progressbar" [attr.aria-valuenow]="progressPercentage()" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="'Task completion progress: ' + progressPercentage() + '%'">
+<div
+  class="top-progress-bar"
+  role="progressbar"
+  [attr.aria-valuenow]="progressPercentage()"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  [attr.aria-label]="'Task completion progress: ' + progressPercentage() + '%'"
+>
   <div class="top-progress-fill" [style.width.%]="progressPercentage()"></div>
 </div>
 }
@@ -41,7 +48,9 @@
     <h2 id="add-task-heading" class="visually-hidden">Add New Task</h2>
     <div class="input-group">
       <div class="input-container">
-        <label for="new-task-input" class="visually-hidden">{{ translate('addTask.placeholder') }}</label>
+        <label for="new-task-input" class="visually-hidden">{{
+          translate("addTask.placeholder")
+        }}</label>
         <input
           id="new-task-input"
           type="text"
@@ -50,13 +59,15 @@
           [placeholder]="translate('addTask.placeholder')"
           class="task-input"
           maxlength="200"
-          [attr.aria-describedby]="newTaskText.length > 180 ? 'char-limit-warning' : null"
+          [attr.aria-describedby]="
+            newTaskText.length > 180 ? 'char-limit-warning' : null
+          "
         />
         <span class="return-icon" aria-hidden="true">↵</span>
         @if (newTaskText.length > 180) {
-          <div id="char-limit-warning" class="char-warning" role="alert">
-            {{ 200 - newTaskText.length }} characters remaining
-          </div>
+        <div id="char-limit-warning" class="char-warning" role="alert">
+          {{ 200 - newTaskText.length }} characters remaining
+        </div>
         }
       </div>
       <button
@@ -75,63 +86,82 @@
   <!-- Task List -->
   <section class="task-list-section" aria-labelledby="task-list-heading">
     <h2 id="task-list-heading" class="visually-hidden">Your Tasks</h2>
-    <div class="task-list" role="list" [attr.aria-label]="'Task list with ' + totalCount() + ' tasks, ' + completedCount() + ' completed'">
-    @for (task of tasks(); track task.id) {
-    <article class="task-item" [class.completed]="task.completed" role="listitem">
-      <div class="task-content">
-        <label class="checkbox-container" [attr.for]="'task-' + task.id">
-          <input
-            [id]="'task-' + task.id"
-            type="checkbox"
-            [checked]="task.completed"
-            (change)="toggleTask(task.id)"
-            class="task-checkbox"
-            [attr.aria-label]="'Mark task as ' + (task.completed ? 'incomplete' : 'complete') + ': ' + task.text"
-          />
-          <span class="checkmark" aria-hidden="true"></span>
-        </label>
-
-        @if (editingTaskId === task.id) {
-        <input
-          type="text"
-          [(ngModel)]="editingText"
-          (keydown)="onEditKeyPress($event)"
-          (blur)="saveTaskEdit()"
-          class="task-edit-input"
-          #editInput
-          maxlength="200"
-        />
-        } @else {
-        <span
-          class="task-text"
-          [class.crossed-out]="task.completed"
-          (click)="!task.completed && startEditingTask(task)"
-          [class.editable]="!task.completed"
-          [title]="!task.completed ? translate('actions.editTask') : ''"
-        >
-          {{ task.text }}
-        </span>
-        }
-      </div>
-
-      <button
-        (click)="deleteTask(task.id)"
-        class="delete-btn"
-        [title]="translate('actions.deleteTask')"
+    <div
+      class="task-list"
+      role="list"
+      [attr.aria-label]="
+        'Task list with ' +
+        totalCount() +
+        ' tasks, ' +
+        completedCount() +
+        ' completed'
+      "
+    >
+      @for (task of tasks(); track task.id) {
+      <article
+        class="task-item"
+        [class.completed]="task.completed"
+        role="listitem"
       >
-        <span class="delete-icon">×</span>
-      </button>
-    </div>
-    } @empty {
-    <!-- Empty State -->
-    <div class="empty-state">
-      <div class="empty-icon">📝</div>
-      <h3>{{ translate("emptyState.title") }}</h3>
-      <p>{{ translate("emptyState.message") }}</p>
-    </div>
-    }
-  </div>
+        <div class="task-content">
+          <label class="checkbox-container" [attr.for]="'task-' + task.id">
+            <input
+              [id]="'task-' + task.id"
+              type="checkbox"
+              [checked]="task.completed"
+              (change)="toggleTask(task.id)"
+              class="task-checkbox"
+              [attr.aria-label]="
+                'Mark task as ' +
+                (task.completed ? 'incomplete' : 'complete') +
+                ': ' +
+                task.text
+              "
+            />
+            <span class="checkmark" aria-hidden="true"></span>
+          </label>
 
+          @if (editingTaskId === task.id) {
+          <input
+            type="text"
+            [(ngModel)]="editingText"
+            (keydown)="onEditKeyPress($event)"
+            (blur)="saveTaskEdit()"
+            class="task-edit-input"
+            #editInput
+            maxlength="200"
+          />
+          } @else {
+          <span
+            class="task-text"
+            [class.crossed-out]="task.completed"
+            (click)="!task.completed && startEditingTask(task)"
+            [class.editable]="!task.completed"
+            [title]="!task.completed ? translate('actions.editTask') : ''"
+          >
+            {{ task.text }}
+          </span>
+          }
+        </div>
+
+        <button
+          (click)="deleteTask(task.id)"
+          class="delete-btn"
+          [title]="translate('actions.deleteTask')"
+        >
+          <span class="delete-icon">×</span>
+        </button>
+      </article>
+      } @empty {
+      <!-- Empty State -->
+      <div class="empty-state">
+        <div class="empty-icon">📝</div>
+        <h3>{{ translate("emptyState.title") }}</h3>
+        <p>{{ translate("emptyState.message") }}</p>
+      </div>
+      }
+    </div>
+  </section>
   <!-- Clear All Button -->
   @if (tasks().length > 0) {
   <div class="actions-section">
@@ -145,11 +175,21 @@
   <footer class="app-footer" role="contentinfo">
     <nav class="footer-nav" aria-label="Footer navigation">
       <div class="footer-links">
-        <button type="button" class="footer-link" (click)="openModal('imprint')" aria-label="Open imprint information">
+        <button
+          type="button"
+          class="footer-link"
+          (click)="openModal('imprint')"
+          aria-label="Open imprint information"
+        >
           {{ translate("footer.imprint") }}
         </button>
         <span class="footer-separator" aria-hidden="true">•</span>
-        <button type="button" class="footer-link" (click)="openModal('privacy')" aria-label="Open privacy policy">
+        <button
+          type="button"
+          class="footer-link"
+          (click)="openModal('privacy')"
+          aria-label="Open privacy policy"
+        >
           {{ translate("footer.dataPrivacy") }}
         </button>
         <span class="footer-separator" aria-hidden="true">•</span>
@@ -168,3 +208,5 @@
 
 <!-- Modal Component -->
 <app-modal></app-modal>
+
+<!-- Confetti Component -->
