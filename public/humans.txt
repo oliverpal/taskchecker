@@ -1,0 +1,41 @@
+# Task Checker - humans.txt
+# The humans responsible & technology colophon
+
+/* TEAM */
+    Developer: Task Checker Team
+    Contact: hello [at] taskchecker.app
+    From: Internet
+
+/* THANKS */
+    Angular Team - For the amazing framework
+    Contributors - For making this app better
+    Users - For choosing Task Checker
+
+/* SITE */
+    Last update: 2024/12/29
+    Language: English / German
+    Doctype: HTML5
+    IDE: Visual Studio Code, Claude Code
+    
+/* TECHNOLOGY */
+    Framework: Angular 20
+    Language: TypeScript 5.8.3
+    Styling: SCSS
+    PWA: Angular Service Worker
+    Testing: Jasmine + Karma
+    Package Manager: PNPM
+    Build Tool: Angular CLI
+    Fonts: Inter (Google Fonts)
+    
+/* FEATURES */
+    ✓ Progressive Web App (PWA)
+    ✓ Multilingual (English/German)
+    ✓ Offline functionality
+    ✓ Local storage
+    ✓ Mobile-first design
+    ✓ Dark/Light themes
+    ✓ Accessibility compliant
+    ✓ Fast performance
+    
+/* STANDARDS */
+    HTML5, CSS3, ES2022, WCAG 2.1, PWA

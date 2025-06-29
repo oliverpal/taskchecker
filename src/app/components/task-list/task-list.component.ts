@@ -11,17 +11,20 @@ import { FormsModule } from '@angular/forms';
 import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
 import { TranslationService } from '../../services/translation.service';
+import { ModalService, ModalType } from '../../services/modal.service';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-task-list',
-  imports: [FormsModule, LanguageSwitcherComponent],
+  imports: [FormsModule, LanguageSwitcherComponent, ModalComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss',
 })
 export class TaskListComponent implements AfterViewChecked {
   private readonly taskService = inject(TaskService);
   private readonly translationService = inject(TranslationService);
+  private readonly modalService = inject(ModalService);
 
   // Public properties for template binding
   tasks = this.taskService.tasks;
@@ -107,5 +110,12 @@ export class TaskListComponent implements AfterViewChecked {
     if (event.key === 'Enter') {
       this.addTask();
     }
+  }
+
+  /**
+   * Opens a modal of the specified type
+   */
+  protected openModal(type: ModalType): void {
+    this.modalService.openModal(type);
   }
 }

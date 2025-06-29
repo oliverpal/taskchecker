@@ -1,0 +1,37 @@
+# Task Checker - Robots.txt
+# Website: https://taskchecker.de
+# Updated: 2024-12-29
+
+User-agent: *
+Allow: /
+
+# Allow all search engines to index the app
+Allow: /en/
+Allow: /de/
+Allow: /icons/
+Allow: /manifest.webmanifest
+
+# Disallow admin or private areas (if any in future)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Sitemap location
+Sitemap: https://taskchecker.app/sitemap.xml
+
+# Crawl-delay for respectful crawling (optional)
+Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /

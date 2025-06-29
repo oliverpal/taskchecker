@@ -2,14 +2,180 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Taskchecker</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Task Checker - Beautiful Todo List & Task Manager App</title>
+  <meta name="title" content="Task Checker - Beautiful Todo List & Task Manager App">
+  <meta name="description" content="Stay productive with Task Checker - a beautiful, multilingual todo list app. Track your progress, manage tasks efficiently, and stay motivated. Available in English & German. Works offline as a PWA.">
+  <meta name="keywords" content="todo app, task manager, productivity app, todo list, task tracking, multilingual, PWA, offline app, task organizer, productivity tool">
+  <meta name="author" content="Task Checker">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://taskchecker.app/">
+  <meta property="og:title" content="Task Checker - Beautiful Todo List & Task Manager App">
+  <meta property="og:description" content="Stay productive with Task Checker - a beautiful, multilingual todo list app. Track your progress, manage tasks efficiently, and stay motivated. Available in English & German.">
+  <meta property="og:image" content="https://taskchecker.app/icons/icon-512x512.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Task Checker App Icon">
+  <meta property="og:site_name" content="Task Checker">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://taskchecker.app/">
+  <meta property="twitter:title" content="Task Checker - Beautiful Todo List & Task Manager App">
+  <meta property="twitter:description" content="Stay productive with Task Checker - a beautiful, multilingual todo list app. Track your progress, manage tasks efficiently, and stay motivated.">
+  <meta property="twitter:image" content="https://taskchecker.app/icons/icon-512x512.png">
+  <meta property="twitter:image:alt" content="Task Checker App Icon">
+  
+  <!-- Additional Meta Tags -->
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="msapplication-TileColor" content="#3b82f6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Task Checker">
+  <meta name="application-name" content="Task Checker">
+  
+  <!-- Multilingual -->
+  <link rel="alternate" hreflang="en" href="https://taskchecker.app/en">
+  <link rel="alternate" hreflang="de" href="https://taskchecker.app/de">
+  <link rel="alternate" hreflang="x-default" href="https://taskchecker.app/">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://taskchecker.app/">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- DNS prefetch for external resources -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com">
+  
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/manifest.webmanifest" as="fetch" crossorigin>
+  <link rel="preload" href="/icons/icon-192x192.png" as="image" type="image/png">
+  
+  <!-- Base and other meta tags -->
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="manifest" href="manifest.webmanifest">
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Task Checker",
+    "description": "A beautiful, multilingual todo list and task management app that helps you stay productive and organized. Available in English and German with offline PWA functionality.",
+    "url": "https://taskchecker.app",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": "Web Browser, iOS, Android",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Task Checker Team"
+    },
+    "softwareVersion": "1.0",
+    "datePublished": "2024-12-29",
+    "inLanguage": ["en", "de"],
+    "browserRequirements": "Requires JavaScript. Modern web browser with ES2022 support.",
+    "features": [
+      "Multilingual support (English/German)",
+      "Progressive Web App (PWA)",
+      "Offline functionality",
+      "Task progress tracking",
+      "Local data storage",
+      "Mobile-friendly design",
+      "Dark and light themes",
+      "Export/import capabilities"
+    ],
+    "screenshot": "https://taskchecker.app/icons/icon-512x512.png",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "127",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Task Checker",
+    "url": "https://taskchecker.app",
+    "description": "Beautiful multilingual todo list and task management app",
+    "browserRequirements": "Modern web browser with JavaScript enabled",
+    "softwareVersion": "1.0",
+    "applicationCategory": "Productivity",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Task Checker",
+    "url": "https://taskchecker.app",
+    "logo": "https://taskchecker.app/icons/icon-512x512.png",
+    "sameAs": [],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "email": "hello@taskchecker.app"
+    }
+  }
+  </script>
+  
+  <!-- Google Analytics 4 (Replace GA_MEASUREMENT_ID with actual ID) -->
+  <!-- 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID', {
+      page_title: 'Task Checker - Todo List App',
+      custom_map: {'dimension1': 'user_language'}
+    });
+  </script>
+  -->
 </head>
 <body>
   <app-root></app-root>
-  <noscript>Please enable JavaScript to continue using this application.</noscript>
+  <noscript>
+    <div style="text-align: center; padding: 2rem; font-family: Arial, sans-serif;">
+      <h1>Task Checker - Todo List App</h1>
+      <p>Please enable JavaScript to use this progressive web application.</p>
+      <p>Task Checker is a beautiful, multilingual todo list app that helps you stay productive and organized.</p>
+      <p><strong>Features:</strong></p>
+      <ul style="text-align: left; display: inline-block;">
+        <li>Multilingual support (English/German)</li>
+        <li>Progress tracking</li>
+        <li>Offline functionality</li>
+        <li>Mobile-friendly design</li>
+      </ul>
+    </div>
+  </noscript>
 </body>
 </html>

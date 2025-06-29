@@ -1,0 +1,176 @@
+@if (isOpen()) {
+<div
+  class="modal-backdrop"
+  (click)="onBackdropClick($event)"
+  [attr.aria-hidden]="false"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    #modalContent
+    class="modal-content"
+    [class.modal-content--mobile]="true"
+    (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd($event)"
+  >
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h2 class="modal-title">{{ modalTitle() }}</h2>
+      <button
+        #closeButton
+        class="modal-close-btn"
+        (click)="closeModal()"
+        [attr.aria-label]="translate('modal.close')"
+        type="button"
+      >
+        <span class="close-icon">×</span>
+      </button>
+    </div>
+    <div class="modal-drag-handle"></div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      @switch (modalType()) { @case ('imprint') {
+      <div class="modal-content-section">
+        <div class="modal-text">
+          <p>{{ translate("modal.imprint.content") }}</p>
+          <div class="contact-info">
+            <p>
+              <strong>{{ translate("modal.imprint.contact") }}</strong>
+            </p>
+            <p>{{ translate("modal.imprint.email") }}</p>
+          </div>
+        </div>
+      </div>
+      } @case ('privacy') {
+      <div class="modal-content-section">
+        <div class="modal-text">
+          <p>{{ translate("modal.privacy.intro") }}</p>
+          <div class="privacy-section">
+            <h3>{{ translate("modal.privacy.dataCollection.title") }}</h3>
+            <p>{{ translate("modal.privacy.dataCollection.content") }}</p>
+          </div>
+          <div class="privacy-section">
+            <h3>{{ translate("modal.privacy.localStorage.title") }}</h3>
+            <p>{{ translate("modal.privacy.localStorage.content") }}</p>
+          </div>
+          <div class="privacy-section">
+            <h3>{{ translate("modal.privacy.noTracking.title") }}</h3>
+            <p>{{ translate("modal.privacy.noTracking.content") }}</p>
+          </div>
+        </div>
+      </div>
+      } @case ('premium') {
+      <div class="modal-content-section">
+        <div class="modal-text">
+          <p>{{ translate("modal.premium.intro") }}</p>
+          <!-- Premium Feedback Form -->
+          <div class="premium-form-section">
+            <h3>{{ translate("modal.premium.form.title") }}</h3>
+            <p class="form-description">
+              {{ translate("modal.premium.form.description") }}
+            </p>
+
+            <form
+              class="premium-feedback-form"
+              (ngSubmit)="submitPremiumFeedback()"
+              #premiumForm="ngForm"
+            >
+              <!-- Email Field -->
+              <div class="form-group">
+                <label for="premiumEmail" class="form-label">
+                  {{ translate("modal.premium.form.email.label") }}
+                  <span class="optional-text"
+                    >({{ translate("modal.premium.form.optional") }})</span
+                  >
+                </label>
+                <input
+                  type="email"
+                  id="premiumEmail"
+                  name="email"
+                  [(ngModel)]="premiumFormData.email"
+                  class="form-input"
+                  [placeholder]="
+                    translate('modal.premium.form.email.placeholder')
+                  "
+                  autocomplete="email"
+                  style="
+                    border: 2px solid red !important;
+                    background: white !important;
+                    height: 48px !important;
+                  "
+                />
+              </div>
+
+              <!-- Suggestions Textarea -->
+              <div class="form-group">
+                <label for="premiumSuggestions" class="form-label">
+                  {{ translate("modal.premium.form.suggestions.label") }}
+                </label>
+                <textarea
+                  id="premiumSuggestions"
+                  name="suggestions"
+                  [(ngModel)]="premiumFormData.suggestions"
+                  class="form-textarea"
+                  [placeholder]="
+                    translate('modal.premium.form.suggestions.placeholder')
+                  "
+                  rows="4"
+                  maxlength="500"
+                  style="
+                    border: 2px solid blue !important;
+                    background: white !important;
+                    min-height: 100px !important;
+                  "
+                ></textarea>
+                <div class="character-count">
+                  {{ premiumFormData.suggestions.length }}/500
+                </div>
+              </div>
+
+              <!-- Terms and Conditions Checkbox -->
+              <div class="form-group checkbox-group">
+                <label class="checkbox-container">
+                  <input
+                    type="checkbox"
+                    name="termsAccepted"
+                    [(ngModel)]="premiumFormData.termsAccepted"
+                    class="form-checkbox"
+                    required
+                  />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label">
+                    {{ translate("modal.premium.form.terms.prefix") }}
+                    <button
+                      type="button"
+                      class="terms-link"
+                      (click)="openTermsModal()"
+                    >
+                      {{ translate("modal.premium.form.terms.link") }}
+                    </button>
+                    {{ translate("modal.premium.form.terms.suffix") }}
+                  </span>
+                </label>
+              </div>
+              <!-- Success/Error Messages -->
+              @if (feedbackSubmissionState === 'success') {
+              <div class="feedback-message success">
+                <span class="message-icon">✓</span>
+                {{ translate("modal.premium.form.success") }}
+              </div>
+              } @if (feedbackSubmissionState === 'error') {
+              <div class="feedback-message error">
+                <span class="message-icon">⚠</span>
+                {{ translate("modal.premium.form.error") }}
+              </div>
+              }
+            </form>
+          </div>
+        </div>
+      </div>
+      } }
+    </div>
+  </div>
+</div>
+}

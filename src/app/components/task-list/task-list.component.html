@@ -1,22 +1,27 @@
 <!-- Language Switcher -->
-<app-language-switcher></app-language-switcher>
+<header role="banner">
+  <app-language-switcher></app-language-switcher>
+</header>
 
 <!-- Top Progress Bar -->
 @if (totalCount() > 0) {
-<div class="top-progress-bar">
+<div class="top-progress-bar" role="progressbar" [attr.aria-valuenow]="progressPercentage()" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="'Task completion progress: ' + progressPercentage() + '%'">
   <div class="top-progress-fill" [style.width.%]="progressPercentage()"></div>
 </div>
 }
 
-<div class="task-container">
-  <h1 class="app-title">{{ translate('app.title') }}</h1>
-  <p class="app-subtitle">{{ translate('app.subtitle') }}</p>
+<main class="task-container" role="main">
+  <header class="app-header">
+    <h1 class="app-title">{{ translate("app.title") }}</h1>
+    <p class="app-subtitle">{{ translate("app.subtitle") }}</p>
+  </header>
 
   <!-- Progress Info -->
   @if (totalCount() > 0) {
   <div class="progress-info-section">
     <span class="progress-text"
-      >{{ completedCount() }} / {{ totalCount() }} {{ translate('progress.tasksCompleted') }}</span
+      >{{ completedCount() }} / {{ totalCount() }}
+      {{ translate("progress.tasksCompleted") }}</span
     >
     <span class="progress-percentage">{{ progressPercentage() }}%</span>
   </div>
@@ -26,46 +31,64 @@
   @if (showCompletionMessage()) {
   <div class="completion-message">
     <div class="celebration-icon">🎉</div>
-    <h2>{{ translate('completion.title') }}</h2>
-    <p>{{ translate('completion.message') }}</p>
+    <h2>{{ translate("completion.title") }}</h2>
+    <p>{{ translate("completion.message") }}</p>
   </div>
   }
 
   <!-- Add Task Form -->
-  <div class="add-task-section">
+  <section class="add-task-section" aria-labelledby="add-task-heading">
+    <h2 id="add-task-heading" class="visually-hidden">Add New Task</h2>
     <div class="input-group">
-      <input
-        type="text"
-        [(ngModel)]="newTaskText"
-        (keypress)="onKeyPress($event)"
-        [placeholder]="translate('addTask.placeholder')"
-        class="task-input"
-        maxlength="200"
-      />
+      <div class="input-container">
+        <label for="new-task-input" class="visually-hidden">{{ translate('addTask.placeholder') }}</label>
+        <input
+          id="new-task-input"
+          type="text"
+          [(ngModel)]="newTaskText"
+          (keypress)="onKeyPress($event)"
+          [placeholder]="translate('addTask.placeholder')"
+          class="task-input"
+          maxlength="200"
+          [attr.aria-describedby]="newTaskText.length > 180 ? 'char-limit-warning' : null"
+        />
+        <span class="return-icon" aria-hidden="true">↵</span>
+        @if (newTaskText.length > 180) {
+          <div id="char-limit-warning" class="char-warning" role="alert">
+            {{ 200 - newTaskText.length }} characters remaining
+          </div>
+        }
+      </div>
       <button
         (click)="addTask()"
         [disabled]="!newTaskText.trim()"
         class="add-btn"
+        type="button"
+        [attr.aria-label]="'Add task: ' + newTaskText"
       >
-        <span class="add-icon">+</span>
-        {{ translate('addTask.button') }}
+        <span class="add-icon" aria-hidden="true">+</span>
+        {{ translate("addTask.button") }}
       </button>
     </div>
-  </div>
+  </section>
 
   <!-- Task List -->
-  <div class="task-list">
+  <section class="task-list-section" aria-labelledby="task-list-heading">
+    <h2 id="task-list-heading" class="visually-hidden">Your Tasks</h2>
+    <div class="task-list" role="list" [attr.aria-label]="'Task list with ' + totalCount() + ' tasks, ' + completedCount() + ' completed'">
     @for (task of tasks(); track task.id) {
-    <div class="task-item" [class.completed]="task.completed">
+    <article class="task-item" [class.completed]="task.completed" role="listitem">
       <div class="task-content">
-        <label class="checkbox-container">
+        <label class="checkbox-container" [attr.for]="'task-' + task.id">
           <input
+            [id]="'task-' + task.id"
             type="checkbox"
             [checked]="task.completed"
             (change)="toggleTask(task.id)"
             class="task-checkbox"
+            [attr.aria-label]="'Mark task as ' + (task.completed ? 'incomplete' : 'complete') + ': ' + task.text"
           />
-          <span class="checkmark"></span>
+          <span class="checkmark" aria-hidden="true"></span>
         </label>
 
         @if (editingTaskId === task.id) {
@@ -79,12 +102,13 @@
           maxlength="200"
         />
         } @else {
-        <span 
-          class="task-text" 
+        <span
+          class="task-text"
           [class.crossed-out]="task.completed"
           (click)="!task.completed && startEditingTask(task)"
           [class.editable]="!task.completed"
-          [title]="!task.completed ? translate('actions.editTask') : ''">
+          [title]="!task.completed ? translate('actions.editTask') : ''"
+        >
           {{ task.text }}
         </span>
         }
@@ -102,8 +126,8 @@
     <!-- Empty State -->
     <div class="empty-state">
       <div class="empty-icon">📝</div>
-      <h3>{{ translate('emptyState.title') }}</h3>
-      <p>{{ translate('emptyState.message') }}</p>
+      <h3>{{ translate("emptyState.title") }}</h3>
+      <p>{{ translate("emptyState.message") }}</p>
     </div>
     }
   </div>
@@ -112,8 +136,35 @@
   @if (tasks().length > 0) {
   <div class="actions-section">
     <button (click)="clearAllTasks()" class="clear-all-btn">
-      {{ translate('actions.clearAll') }}
+      {{ translate("actions.clearAll") }}
     </button>
   </div>
   }
-</div>
+
+  <!-- Footer -->
+  <footer class="app-footer" role="contentinfo">
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <div class="footer-links">
+        <button type="button" class="footer-link" (click)="openModal('imprint')" aria-label="Open imprint information">
+          {{ translate("footer.imprint") }}
+        </button>
+        <span class="footer-separator" aria-hidden="true">•</span>
+        <button type="button" class="footer-link" (click)="openModal('privacy')" aria-label="Open privacy policy">
+          {{ translate("footer.dataPrivacy") }}
+        </button>
+        <span class="footer-separator" aria-hidden="true">•</span>
+        <button
+          type="button"
+          class="footer-link premium"
+          (click)="openModal('premium')"
+          aria-label="Learn about premium features"
+        >
+          {{ translate("footer.wantPremium") }}
+        </button>
+      </div>
+    </nav>
+  </footer>
+</main>
+
+<!-- Modal Component -->
+<app-modal></app-modal>
