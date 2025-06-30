@@ -126,7 +126,7 @@
             type="text"
             [(ngModel)]="editingText"
             (keydown)="onEditKeyPress($event)"
-            (blur)="saveTaskEdit()"
+            (blur)="onEditBlur()"
             class="task-edit-input"
             #editInput
             maxlength="200"

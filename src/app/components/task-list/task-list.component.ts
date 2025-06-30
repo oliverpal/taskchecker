@@ -31,6 +31,7 @@ export class TaskListComponent implements AfterViewChecked {
   newTaskText = '';
   editingTaskId: string | null = null;
   editingText = '';
+  private hasSelectedText = false;
 
   // Computed properties using signals
   protected readonly progressPercentage = computed(() => {
@@ -50,9 +51,14 @@ export class TaskListComponent implements AfterViewChecked {
   @ViewChild('editInput') private editInput?: ElementRef<HTMLInputElement>;
 
   ngAfterViewChecked(): void {
-    if (this.editInput && this.editingTaskId) {
-      this.editInput.nativeElement.focus();
-      this.editInput.nativeElement.select();
+    if (this.editInput && this.editingTaskId && !this.hasSelectedText) {
+      const inputElement = this.editInput.nativeElement;
+      inputElement.focus();
+      // Use setTimeout to ensure the value is set before selecting
+      setTimeout(() => {
+        inputElement.select();
+        this.hasSelectedText = true;
+      }, 0);
     }
   }
 
@@ -84,6 +90,7 @@ export class TaskListComponent implements AfterViewChecked {
   protected startEditingTask(task: Task): void {
     this.editingTaskId = task.id;
     this.editingText = task.text;
+    this.hasSelectedText = false;
   }
 
   protected saveTaskEdit(): void {
@@ -96,6 +103,7 @@ export class TaskListComponent implements AfterViewChecked {
   protected cancelEdit(): void {
     this.editingTaskId = null;
     this.editingText = '';
+    this.hasSelectedText = false;
   }
 
   protected onEditKeyPress(event: KeyboardEvent): void {
@@ -104,6 +112,15 @@ export class TaskListComponent implements AfterViewChecked {
     } else if (event.key === 'Escape') {
       this.cancelEdit();
     }
+  }
+
+  onEditBlur(): void {
+    // Use setTimeout to allow other click events to process first
+    setTimeout(() => {
+      if (this.editingTaskId) {
+        this.saveTaskEdit();
+      }
+    }, 100);
   }
 
   protected onKeyPress(event: KeyboardEvent): void {
